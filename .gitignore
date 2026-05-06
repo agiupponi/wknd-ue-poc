@@ -40,7 +40,5 @@ dist/
 /.env
 /package-lock.json
 
-certificates
-
 /.next
 /.env.sandbox
