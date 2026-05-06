@@ -1,0 +1,36 @@
+/*
+Copyright 2022 Adobe
+All Rights Reserved.
+
+NOTICE: Adobe permits you to use, modify, and distribute this file in
+accordance with the terms of the Adobe license agreement accompanying
+it.
+*/
+"use client";
+import React, {useEffect, useMemo} from 'react';
+import {fetchData, getImageURL} from '../../utils/fetchData';
+
+const Image = (props) => {
+  const {resource, prop = "fileReference", type, className, data: initialData} = props;
+
+  const editorProps = useMemo(() => true && {
+    "data-aue-resource": resource,
+    "data-aue-prop":prop,
+    "data-aue-type": type,
+  }, [resource, prop, type]);
+
+  const [data,setData] = React.useState(initialData || {});
+  useEffect(() => {
+    if(!resource || !prop || initialData) return;
+    fetchData(resource).then((data) => setData(data));
+  }, [resource, prop, initialData]);
+  const path = data[prop] || data["fileReference"] || data["src"];
+
+  if (!path && !initialData) return null;
+
+  return (
+    <img {...editorProps} data-aue-component="image" data-aue-label={"Image"} src={path ? `${getImageURL(path)}` : null} className={className} alt={data.alt || ""} />
+  );
+};
+
+export default Image;

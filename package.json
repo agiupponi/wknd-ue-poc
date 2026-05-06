@@ -1,0 +1,61 @@
+{
+  "name": "universal-editor-sample-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Adobe Universal Editor Sample App",
+  "author": "Adobe",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/adobe/universal-editor-sample-app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adobe/universal-editor-sample-app.git"
+  },
+  "keywords": [
+    "adobe",
+    "universal-editor",
+    "sample-app"
+  ],
+  "type": "module",
+  "scripts": {
+    "start": "next start",
+    "dev:sandbox": "env-cmd -f .env.sandbox next dev --experimental-https",
+    "build": "next build",
+    "deploy": "next build && gh-pages -d out --cname ue-remote-app.adobe.net",
+    "dev:local": "NODE_EXTRA_CA_CERTS=certificates/localhost.pem next dev --experimental-https"
+  },
+  "dependencies": {
+    "@adobe/jwt-auth": "^2.0.0",
+    "next": "^16.2.4",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "sass": "^1.94.1"
+  },
+  "devDependencies": {
+    "@adobe/aem-headless-client-nodejs": "^2.0.0",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "env-cmd": "^11.0.0",
+    "gh-pages": "^6.1.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

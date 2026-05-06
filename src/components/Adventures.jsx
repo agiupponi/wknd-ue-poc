@@ -1,0 +1,86 @@
+/*
+Copyright 2020 Adobe
+All Rights Reserved.
+NOTICE: Adobe permits you to use, modify, and distribute this file in
+accordance with the terms of the Adobe license agreement accompanying
+it.
+*/
+import React from 'react';
+import Link from 'next/link';
+import { fetchPersistedQuery } from '../api/graphqlServer';
+import Loading from './base/Loading';
+import "./Adventures.scss";
+import Title from './base/Title';
+import {getImageURL} from "../utils/fetchData";
+import {getQueryStringForHashRouting} from "../utils/commons";
+
+function AdventureItem(props) {
+    const editorProps = {
+      "data-aue-resource": "urn:aemconnection:" + props?._path + "/jcr:content/data/master",
+      "data-aue-type": "reference",
+      "data-aue-filter": "cf",
+      "data-aue-label": "Adventure: " + props.title
+    };
+
+  //Must have title, path, and image
+  if(!props || !props._path || !props.title || !props.primaryImage ) {
+    return null;
+  }
+
+  return (
+         <li className="adventure-item" {...editorProps}>
+          <div className="adventure-image-card">
+          <Link href={`/adventure/${props.slug}${getQueryStringForHashRouting()}`}>
+            <img className="adventure-item-image" src={`${getImageURL(props.primaryImage)}`}
+                  alt={props.title} data-aue-prop="primaryImage" data-aue-type="media" data-aue-label="Image"/>
+          </Link>
+          </div>
+          <h3 className="adventure-item-title" data-aue-prop="title" data-aue-type="text" data-aue-label="Title">{props.title}</h3>
+          <div className="adventure-item-details">
+              <div className="adventure-item-length pill default">
+                <span 
+                data-aue-prop="tripLength" data-aue-type="text" data-aue-label="Length"
+                >{props.tripLength?.toLowerCase()}
+                </span>
+              </div>
+              <div className="adventure-item-price pill">$
+                <span 
+                  data-aue-prop="price" data-aue-type="text" data-aue-label="Price"
+                  >{props.price}
+                </span>
+              </div>
+          </div>  
+      </li>
+  );
+}
+
+async function Adventures() {
+  const persistentQuery = 'wknd-shared/adventures-all';
+  //Use a custom React Hook to execute the GraphQL query
+  const {data, errors} = await fetchPersistedQuery(persistentQuery);
+  const errorMessage = errors ? errors.map(e => e.message || e).join(', ') : null;
+
+  //If there is an error with the GraphQL query
+  if(errorMessage) return;
+
+  //If data is null then return a loading state...
+  if(!data) return <Loading />;
+
+  return (
+      <section id="adventures" className="adventures">
+        <Title itemID="urn:aemconnection:/content/wknd/us/en/adventures/jcr:content/root/container/container/title" itemType="text" itemProp="jcr:title"/>      
+        <ul className="adventure-items">
+          {
+              //Iterate over the returned data items from the query
+              data?.adventureList?.items?.map((adventure, index) => {
+                return (
+                  <AdventureItem key={index} {...adventure} />
+                );
+              })
+          }
+          </ul>
+      </section>
+  );
+}
+
+export default Adventures;
