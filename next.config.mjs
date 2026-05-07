@@ -14,7 +14,6 @@ const nextConfig = {
     ]
   },
   async headers() {
-    debugger;
     return [
       {
         source: "/:path*",

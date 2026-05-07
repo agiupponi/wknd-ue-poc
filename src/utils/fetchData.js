@@ -53,6 +53,35 @@ export const fetchModel = async (path) => {
     return await response.json();
 };
 
+export const fetchHtml = async (path) => {
+    const aemPath = path.includes(":/") ? path.split(":/")[1] : path;
+    const url = `${getAuthorHost()}${aemPath.startsWith('/') ? '' : '/'}${aemPath}`;
+    
+    const token = process.env.NEXT_PUBLIC_AEM_ACCESS_TOKEN;
+    const headers = {
+        "X-Aem-Affinity-Type": "api"
+    };
+    
+    if (token) {
+        if (token.includes(':')) {
+            headers["Authorization"] = `Basic ${btoa(token)}`;
+        } else {
+            headers["Authorization"] = `Bearer ${token}`;
+        }
+    }
+
+    const response = await fetch(url, { 
+        headers, 
+        credentials: "include" 
+    });
+    
+    if (!response.ok) {
+        return null;
+    }
+    
+    return await response.text();
+};
+
 export const getAuthorHost = () => {
     const searchParams = getSearchParamsForHashRouting();
     if (searchParams.has("authorHost")) {

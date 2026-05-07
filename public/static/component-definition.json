@@ -73,6 +73,18 @@
           }
         },
         {
+          "title": "Carousel Item",
+          "id": "carousel-item",
+          "model": "carousel-item",
+          "plugins": {
+            "aem": {
+              "page": {
+                "resourceType": "wknd/components/container"
+              }
+            }
+          }
+        },
+        {
           "title": "Image List",
           "id": "image-list",
           "model": "image-list",
@@ -118,6 +130,18 @@
               }
             }
           }
+        },
+        {
+          "title": "Experience Fragment",
+          "id": "experiencefragment",
+          "model": "experiencefragment",
+          "plugins": {
+            "aem": {
+              "page": {
+                "resourceType": "wknd/components/experiencefragment"
+              }
+            }
+          }
         }
       ]
     },
@@ -150,6 +174,18 @@
             "aem": {
               "page": {
                 "resourceType": "wknd/components/accordion"
+              }
+            }
+          }
+        },
+        {
+          "title": "Carousel",
+          "id": "carousel",
+          "filter": "carousel",
+          "plugins": {
+            "aem": {
+              "page": {
+                "resourceType": "wknd/components/carousel"
               }
             }
           }

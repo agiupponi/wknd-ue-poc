@@ -57,6 +57,19 @@
     ]
   },
   {
+    "id": "carousel-item",
+    "fields": [
+      {
+        "component": "text",
+        "name": "cq:panelTitle",
+        "value": "Carousel Item",
+        "label": "Carousel Item Title",
+        "valueType": "string",
+        "required": true
+      }
+    ]
+  },
+  {
     "id": "image-list",
     "fields": [
       {

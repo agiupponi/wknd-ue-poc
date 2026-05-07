@@ -2,13 +2,19 @@
 {
     "id": "container",
     "components": [
-        "text", "image", "title", "accordion", "container", "richtext", "image-list", "separator", "contentfragment"
+        "text", "image", "title", "accordion", "container", "richtext", "image-list", "separator", "contentfragment", "carousel", "experiencefragment"
     ]
     },
   {
     "id": "accordion",
     "components": [
       "accordion-item"
+    ]
+  },
+  {
+    "id": "carousel",
+    "components": [
+      "carousel-item"
     ]
   }
 ]

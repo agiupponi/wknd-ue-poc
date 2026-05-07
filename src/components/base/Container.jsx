@@ -9,6 +9,7 @@ import Teaser from './Teaser';
 import ImageList from './ImageList';
 import Separator from './Separator';
 import ContentFragment from './ContentFragment';
+import Carousel from './Carousel';
 
 const Container = ({ resource, type, label = "Container", data}) => {
   const [components, setComponents] = React.useState(null);
@@ -52,10 +53,6 @@ const Container = ({ resource, type, label = "Container", data}) => {
           itemType = "container";
           Component = Container;
           break;
-        case "experiencefragment":
-          itemType = "container";
-          Component = Container;
-          break;
         case "tabs":
         case "accordion":
           itemType = "container";
@@ -76,6 +73,10 @@ const Container = ({ resource, type, label = "Container", data}) => {
         case "contentfragment":
           itemType = "component";
           Component = ContentFragment;
+          break;
+        case "carousel":
+          itemType = "container";
+          Component = Carousel;
           break;
         case "button":
         case "breadcrumb":
