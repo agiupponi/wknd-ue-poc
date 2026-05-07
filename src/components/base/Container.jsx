@@ -10,8 +10,9 @@ import ImageList from './ImageList';
 import Separator from './Separator';
 import ContentFragment from './ContentFragment';
 import Carousel from './Carousel';
+import Layout from './Layout';
 
-const Container = ({ resource, type, label = "Container", data}) => {
+const Container = ({ resource, type, label = "Container", data, filter, behavior }) => {
   const [components, setComponents] = React.useState(null);
 
   const gridClassNames = data?.gridClassNames || "aem-Grid aem-Grid--12 aem-Grid--default--12";
@@ -78,6 +79,10 @@ const Container = ({ resource, type, label = "Container", data}) => {
           itemType = "container";
           Component = Carousel;
           break;
+        case "layout":
+          itemType = "container";
+          Component = Layout;
+          break;
         case "button":
         case "breadcrumb":
         case "list":
@@ -125,7 +130,15 @@ const Container = ({ resource, type, label = "Container", data}) => {
   }, [resource, data]);
   
   return (
-    <div className={gridClassNames} data-aue-component="container" data-aue-resource={resource} data-aue-type={type} data-aue-label={label}>
+    <div 
+      className={gridClassNames} 
+      data-aue-component="container" 
+      data-aue-resource={resource} 
+      data-aue-type={type} 
+      data-aue-label={label}
+      data-aue-filter={filter}
+      data-aue-behavior={behavior}
+    >
      {components}
     </div>
   )

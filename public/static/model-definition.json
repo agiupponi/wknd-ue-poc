@@ -130,5 +130,21 @@
         }
       }
     ]
+  },
+  {
+    "id": "layout",
+    "fields": [
+      {
+        "component": "select",
+        "name": "layoutStyle",
+        "label": "Layout",
+        "valueType": "string",
+        "value": "2col",
+        "options": [
+          { "name": "2 colonne", "value": "2col" },
+          { "name": "3 colonne", "value": "3col" }
+        ]
+      }
+    ]
   }
 ]

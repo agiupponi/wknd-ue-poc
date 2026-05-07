@@ -2,7 +2,7 @@
 {
     "id": "container",
     "components": [
-        "text", "image", "title", "accordion", "container", "richtext", "image-list", "separator", "contentfragment", "carousel", "experiencefragment"
+        "text", "image", "title", "accordion", "container", "richtext", "image-list", "separator", "contentfragment", "carousel", "experiencefragment", "layout"
     ]
     },
   {
@@ -16,5 +16,9 @@
     "components": [
       "carousel-item"
     ]
+  },
+  {
+    "id": "layout-column",
+    "components": ["title", "text", "image", "button", "teaser"]
   }
 ]

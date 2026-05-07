@@ -189,6 +189,30 @@
               }
             }
           }
+        },
+        {
+          "title": "Layout",
+          "id": "layout",
+          "plugins": {
+            "aem": {
+              "page": {
+                "resourceType": "wknd/components/layout",
+                "template": {
+                  "layoutStyle": "2col",
+                  "col-1": {
+                    "sling:resourceType": "wknd/components/container"
+                  },
+                  "col-2": {
+                    "sling:resourceType": "wknd/components/container"
+                  },
+                  "col-3": {
+                    "sling:resourceType": "wknd/components/container"
+                  }
+                }
+              }
+            }
+          },
+          "model": "layout"
         }
       ]
     }
