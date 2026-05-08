@@ -21,23 +21,20 @@ const CarouselItem = (props) => {
 
 const Carousel = (props) => {
     const { resource, type, data } = props;
-    const [items, setItems] = useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
 
-    useEffect(() => {
-        if (!data) return;
-        const itemsToProcess = data[":items"] || data;
-        const itemKeys = Object.keys(itemsToProcess).filter((key) => {
-            const item = itemsToProcess[key];
-            if (typeof item !== 'object') return false;
-            const resourceType = item["sling:resourceType"] || item[":type"];
-            return resourceType?.includes("container");
-        });
-        setItems(itemKeys);
-        if (itemKeys.length > 0 && activeIndex >= itemKeys.length) {
-            setActiveIndex(0);
-        }
-    }, [resource, type, data, activeIndex]);
+    const itemsToProcess = data?.[":items"] || data || {};
+    const items = Object.keys(itemsToProcess).filter((key) => {
+        const item = itemsToProcess[key];
+        if (item === null || typeof item !== 'object') return false;
+        const resourceType = item["sling:resourceType"] || item[":type"];
+        return resourceType?.includes("container");
+    });
+
+    // Ensure activeIndex is within bounds if items are removed
+    if (items.length > 0 && activeIndex >= items.length) {
+        setActiveIndex(0);
+    }
 
     const nextSlide = () => {
         setActiveIndex((prev) => (prev + 1) % items.length);
@@ -51,12 +48,13 @@ const Carousel = (props) => {
         <div className="carousel" data-aue-component="carousel" data-aue-resource={resource} data-aue-type={type} data-aue-label="Carousel">
             <div className="carousel-inner">
                 {items.map((item, index) => (
-                    <CarouselItem 
-                        key={`${resource}/${item}`} 
-                        resource={`${resource}/${item}`} 
-                        data={(data[":items"] || data)[item]} 
-                        isActive={index === activeIndex}
-                    />
+                    <div key={`${resource}/${item}`} className="carousel-item-wrapper">
+                        <CarouselItem 
+                            resource={`${resource}/${item}`} 
+                            data={(data[":items"] || data)[item]} 
+                            isActive={index === activeIndex}
+                        />
+                    </div>
                 ))}
             </div>
             

@@ -38,7 +38,7 @@ const Container = ({ resource, type, label = "Container", data, filter, behavior
           Component = Image;
           break;
         case "text": 
-          itemType = item.textIsRich ? "richtext" : "text";
+          itemType = (item.richText || item.textIsRich) ? "richtext" : "text";
           Component = item.type ? Title : Text;
           break;
         case "title":

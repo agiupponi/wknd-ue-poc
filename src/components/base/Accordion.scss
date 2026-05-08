@@ -9,13 +9,13 @@
   border-bottom: none;
   transition: all 0.3s ease;
 
-  &:last-child {
-    border-bottom: 1px solid #e0e0e0;
-  }
-
   &:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
+}
+
+.accordion-item-wrapper:last-child .accordion-item {
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .accordion-item-title {

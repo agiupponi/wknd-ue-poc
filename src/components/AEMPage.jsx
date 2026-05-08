@@ -9,18 +9,52 @@ const AEMPage = ({ path, children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log("AEMPage: fetching model for path:", path);
-        if (!path) return;
-        
+        const loadModel = () => {
+            console.log("AEMPage: fetching model for path:", path);
+            if (!path) return;
+            
+            fetchModel(path).then((data) => {
+                console.log("AEMPage: fetched model:", data);
+                setModel(data);
+                setLoading(false);
+            }).catch((err) => {
+                console.error("AEMPage: Error fetching model:", err);
+                setLoading(false);
+            });
+        };
+
+        // Initial load
         setLoading(true);
-        fetchModel(path).then((data) => {
-            console.log("AEMPage: fetched model:", data);
-            setModel(data);
-            setLoading(false);
-        }).catch((err) => {
-            console.error("AEMPage: Error fetching model:", err);
-            setLoading(false);
-        });
+        loadModel();
+
+        // Listen for AEM Universal Editor events to update the UI without full page refresh
+        const handleAueEvent = (e) => {
+            // Let UE handle removals natively. This avoids race conditions and React reconciliation crashes
+            // because UE removes the exact node instantly.
+            if (e.type === 'aue:content-remove') {
+                return;
+            }
+
+            e.preventDefault(); // Stop UE from attempting fallback DOM patching for add/update
+            console.log("AEMPage: AUE event detected, refetching model in 300ms...", e.type);
+            
+            // Add a small delay to ensure AEM backend has finished committing the changes
+            setTimeout(() => {
+                loadModel();
+            }, 300);
+        };
+
+        document.addEventListener('aue:content-add', handleAueEvent);
+        document.addEventListener('aue:content-update', handleAueEvent);
+        document.addEventListener('aue:content-remove', handleAueEvent);
+        document.addEventListener('aue:content-move', handleAueEvent);
+
+        return () => {
+            document.removeEventListener('aue:content-add', handleAueEvent);
+            document.removeEventListener('aue:content-update', handleAueEvent);
+            document.removeEventListener('aue:content-remove', handleAueEvent);
+            document.removeEventListener('aue:content-move', handleAueEvent);
+        };
     }, [path]);
 
     if (loading) return <Loading />;
