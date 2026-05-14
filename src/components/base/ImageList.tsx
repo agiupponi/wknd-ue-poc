@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { getImageURL, fetchModel } from '../../utils/fetchData';
 import Loading from './Loading';
 import './ImageList.scss';
+import Image from 'next/image';
 import { AEMComponentProps } from '../../types/aem';
 
 const findFirstImage = (obj: any): any => {
@@ -61,6 +62,7 @@ const ImageListItem: React.FC<ImageListItemProps> = ({ item }) => {
     const rootContainer = model[":items"]?.root?.[":items"]?.container;
     const imageItem = findFirstImage(rootContainer);
     const imagePath = imageItem?.fileReference || imageItem?.src || imageItem?.file;
+    const imageUrl = imagePath ? getImageURL(imagePath) : undefined;
 
     const linkUrl = item.link?.url || (path ? `${path}.html` : "#");
 
@@ -87,8 +89,15 @@ const ImageListItem: React.FC<ImageListItemProps> = ({ item }) => {
         <div className="cmp-imagelist__item" {...itemProps}>
             <Link href={linkUrl} className="cmp-imagelist__item-link">
                 <div className="cmp-imagelist__item-image">
-                    {imagePath ? (
-                        <img src={getImageURL(imagePath)} alt={title} />
+                    {imageUrl ? (
+                        <Image 
+                            src={imageUrl} 
+                            alt={title || ""} 
+                            width={400} 
+                            height={300} 
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                            style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+                        />
                     ) : (
                         <div className="cmp-imagelist__item-image-placeholder" />
                     )}

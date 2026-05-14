@@ -1,6 +1,7 @@
 "use client";
 import React, {useEffect, useMemo} from 'react';
 import {fetchData, getImageURL} from '../../utils/fetchData';
+import Image from 'next/image';
 import { AEMComponentProps } from '../../types/aem';
 
 interface TeaserProps extends AEMComponentProps {
@@ -45,17 +46,22 @@ const Teaser: React.FC<TeaserProps> = (props) => {
   }, [resource, initialData]);
 
   const imagePath = data?.["fileReference"];
+  const imageUrl = imagePath ? getImageURL(imagePath) : undefined;
 
   return (
     <div {...editorProps} className={`${className} cmp-teaser`.trim()}>
       <div className="cmp-teaser__content">
-        {imagePath && (
+        {imageUrl && (
           <div className="cmp-teaser__image">
-            <img 
+            <Image 
               {...imageProps}
-              src={getImageURL(imagePath)} 
-              alt={data["jcr:title"]} 
+              src={imageUrl} 
+              alt={data["jcr:title"] || ""} 
               className="cmp-teaser__image-img"
+              width={800}
+              height={600}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
             />
           </div>
         )}

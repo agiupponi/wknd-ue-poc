@@ -1,6 +1,7 @@
 import React from 'react';
 import { mapJsonRichText } from '../../../../utils/renderRichText';
 import { getImageURL } from '../../../../utils/fetchData';
+import Image from 'next/image';
 import { CFComponentProps } from '../../../../types/aem';
 import './Article.scss';
 
@@ -10,6 +11,12 @@ const Article: React.FC<CFComponentProps> = ({ elements }) => {
     image: { "data-aue-type": "media", "data-aue-prop": elements.featuredImage ? "featuredImage" : "primaryImage" },
     main: { "data-aue-prop": "main", "data-aue-type": "richtext" }
   };
+
+  const imgObj = elements.featuredImage || elements.primaryImage;
+  const imgVal = imgObj?.value || imgObj;
+  const imageUrl = imgVal ? getImageURL(imgVal) : undefined;
+
+  const altText = (elements.title?.value || elements.title) || 'Article Image';
 
   return (
     <>
@@ -21,12 +28,16 @@ const Article: React.FC<CFComponentProps> = ({ elements }) => {
         )}
       </div>
       <div>
-        {(elements.featuredImage || elements.primaryImage) && (
-          <img 
+        {imageUrl && (
+          <Image 
             className="adventure-detail-primaryimage" 
             {...articleProps.image}
-            src={`${getImageURL((elements.featuredImage || elements.primaryImage).value || (elements.featuredImage || elements.primaryImage))}`} 
-            alt={(elements.title?.value || elements.title) || 'Article Image'}
+            src={imageUrl} 
+            alt={typeof altText === 'string' ? altText : 'Article Image'}
+            width={1200}
+            height={600}
+            sizes="100vw"
+            style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
           />
         )}
         <div className="adventure-detail-content">

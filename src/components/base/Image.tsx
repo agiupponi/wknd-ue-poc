@@ -1,6 +1,7 @@
 "use client";
 import React, {useEffect, useMemo} from 'react';
 import {fetchData, getImageURL} from '../../utils/fetchData';
+import Image from 'next/image';
 import { AEMComponentProps } from '../../types/aem';
 
 interface ImageProps extends AEMComponentProps {
@@ -8,7 +9,7 @@ interface ImageProps extends AEMComponentProps {
   className?: string;
 }
 
-const Image: React.FC<ImageProps> = (props) => {
+const ImageComponent: React.FC<ImageProps> = (props) => {
   const {resource, prop = "fileReference", type, className, data: initialData} = props;
 
   const editorProps = useMemo(() => {
@@ -32,9 +33,21 @@ const Image: React.FC<ImageProps> = (props) => {
 
   if (!path && !initialData) return null;
 
+  const imageUrl = path ? getImageURL(path) : undefined;
+  if (!imageUrl) return null;
+
   return (
-    <img {...editorProps} src={path ? `${getImageURL(path)}` : undefined} className={className} alt={data.alt || ""} />
+    <Image 
+      {...editorProps} 
+      src={imageUrl} 
+      className={className} 
+      alt={data.alt || ""} 
+      width={data.width || 1200}
+      height={data.height || 600}
+      sizes="100vw"
+      style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+    />
   );
 };
 
-export default Image;
+export default ImageComponent;

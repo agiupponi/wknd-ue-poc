@@ -1,6 +1,7 @@
 import React from 'react';
 import { mapJsonRichText } from '../../../../utils/renderRichText';
 import { getImageURL } from '../../../../utils/fetchData';
+import Image from 'next/image';
 import { CFComponentProps } from '../../../../types/aem';
 import './Adventure.scss';
 
@@ -16,6 +17,11 @@ const Adventure: React.FC<CFComponentProps> = ({ elements }) => {
     groupSize: { "data-aue-prop": "groupSize", "data-aue-type": "text" },
     itinerary: { "data-aue-prop": "itinerary", "data-aue-type": "richtext" }
   };
+
+  const imgVal = elements.primaryImage?.value || elements.primaryImage;
+  const imageUrl = imgVal ? getImageURL(imgVal) : undefined;
+
+  const altText = (elements.title?.value || elements.title) || 'Adventure Image';
 
   return (
     <>
@@ -34,12 +40,16 @@ const Adventure: React.FC<CFComponentProps> = ({ elements }) => {
         )}
       </div>
       <div>
-        {elements.primaryImage && (
-          <img 
+        {imageUrl && (
+          <Image 
             className="adventure-detail-primaryimage" 
             {...adventureProps.image}
-            src={`${getImageURL((elements.primaryImage).value || elements.primaryImage)}`} 
-            alt={(elements.title?.value || elements.title) || 'Adventure Image'}
+            src={imageUrl} 
+            alt={typeof altText === 'string' ? altText : 'Adventure Image'}
+            width={1200}
+            height={600}
+            sizes="100vw"
+            style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
           />
         )}
         <div className="adventure-detail-content">
