@@ -13,10 +13,14 @@ import {fetchData, getImageURL} from '../../utils/fetchData';
 const Image = (props) => {
   const {resource, prop = "fileReference", type, className, data: initialData} = props;
 
-  const editorProps = useMemo(() => true && {
-    "data-aue-resource": resource,
-    "data-aue-prop":prop,
-    "data-aue-type": type,
+  const editorProps = useMemo(() => {
+    return {
+      "data-aue-component": "image",
+      "data-aue-resource": resource,
+      "data-aue-prop": prop,
+      "data-aue-type": type,
+      "data-aue-label": "Image"
+    };
   }, [resource, prop, type]);
 
   const [data,setData] = React.useState(initialData || {});
@@ -29,7 +33,7 @@ const Image = (props) => {
   if (!path && !initialData) return null;
 
   return (
-    <img {...editorProps} data-aue-component="image" data-aue-label={"Image"} src={path ? `${getImageURL(path)}` : null} className={className} alt={data.alt || ""} />
+    <img {...editorProps} src={path ? `${getImageURL(path)}` : undefined} className={className} alt={data.alt || ""} />
   );
 };
 

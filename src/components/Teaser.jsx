@@ -36,18 +36,36 @@ const Teaser = async () => {
     "data-aue-label": "Hero Teaser"
 	};
 
+  const titleProps = {
+    "data-aue-prop": "title",
+    "data-aue-type": "text",
+    "data-aue-label": "Title"
+  };
+
+  const descProps = {
+    "data-aue-prop": "main",
+    "data-aue-type": "richtext",
+    "data-aue-label": "Description"
+  };
+
+  const imageProps = {
+    "data-aue-type": "media",
+    "data-aue-prop": "featuredImage",
+    "data-aue-label": "Image"
+  };
+
   return (
 
   <section {...editorProps} className="Teaser">
     <article>
       <p>Latest article</p>
-      <h1 data-aue-prop="title" data-aue-type="text" data-aue-label="Title">{title}</h1>
-      {main && <div data-aue-prop="main" data-aue-type="richtext" data-aue-label="Description">{mapJsonRichText(main.json)}</div>}
+      <h1 {...titleProps}>{title}</h1>
+      {main && <div {...descProps}>{mapJsonRichText(main.json)}</div>}
       <Link href={`/articles/article/aloha-spirits-in-northern-norway${getQueryStringForHashRouting()}`}>
         <button>Read more</button>
       </Link>
     </article>
-    {featuredImage && <img src={`${getImageURL(featuredImage)}`} alt={title} data-aue-type="media" data-aue-prop="featuredImage" data-aue-label="Image"/>}
+    {featuredImage && <img src={`${getImageURL(featuredImage)}`} alt={title} {...imageProps}/>}
   </section>
 
 );

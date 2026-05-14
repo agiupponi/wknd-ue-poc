@@ -108,11 +108,14 @@ const Container = ({ resource, type, label = "Container", data, filter, behavior
       };
 
       const colClass = columnClassNames[key] || "aem-GridColumn aem-GridColumn--default--12";
+      
+      // Use the full resource path as a key. This is CRITICAL for Universal Editor 
+      // to avoid duplication issues when moving components between containers.
       components.push(
-        <div key={key} className={colClass}>
+        <div key={props.resource} className={colClass}>
           <Component {...props} />
         </div>
-      )
+      );
     }
     return components;
   }
@@ -129,16 +132,17 @@ const Container = ({ resource, type, label = "Container", data, filter, behavior
     });
   }, [resource, data]);
   
+  const editorProps = {
+    "data-aue-component": "container",
+    "data-aue-resource": resource,
+    "data-aue-type": type,
+    "data-aue-label": label,
+    "data-aue-filter": filter,
+    "data-aue-behavior": behavior
+  };
+
   return (
-    <div 
-      className={gridClassNames} 
-      data-aue-component="container" 
-      data-aue-resource={resource} 
-      data-aue-type={type} 
-      data-aue-label={label}
-      data-aue-filter={filter}
-      data-aue-behavior={behavior}
-    >
+    <div className={gridClassNames} {...editorProps}>
      {components}
     </div>
   )

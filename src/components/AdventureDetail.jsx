@@ -51,11 +51,10 @@ async function AdventureDetail({ slug }) {
     <div  {...editorProps} className="adventure-detail">
         <div><div className="adventure-detail-header">
             <BackButton label="Adventures" className="adventure-detail-back-nav dark" />
-            <h1 className="adventure-detail-title" data-aue-prop="title" data-aue-type="text">{currentAdventure.title}</h1>
+            <h1 className="adventure-detail-title" {...{ "data-aue-prop": "title", "data-aue-type": "text" }}>{currentAdventure.title}</h1>
             <div className="pill default">
-							<span 
-								data-aue-prop="activity" data-aue-type="text"
-							>{currentAdventure.activity}
+							<span {...{ "data-aue-prop": "activity", "data-aue-type": "text" }}>
+								{currentAdventure.activity}
 							</span>
 						</div>
         </div></div>
@@ -74,42 +73,40 @@ function AdventureDetailRender({
 								   description,
 								   itinerary, references
 							   }) {
+	const imageProps = { "data-aue-prop": "primaryImage", "data-aue-type": "media" };
+	const descProps = { "data-aue-prop": "description", "data-aue-type": "richtext" };
+	const advTypeProps = { "data-aue-prop": "adventureType", "data-aue-type": "text" };
+	const tripLengthProps = { "data-aue-prop": "tripLength", "data-aue-type": "text" };
+	const difficultyProps = { "data-aue-prop": "difficulty", "data-aue-type": "text" };
+	const groupSizeProps = { "data-aue-prop": "groupSize", "data-aue-type": "text" };
+	const itineraryProps = { "data-aue-prop": "itinerary", "data-aue-type": "richtext" };
+
 	return (<div>
             <img className="adventure-detail-primaryimage"
-					 src={`${getImageURL(primaryImage)}`} alt={title} data-aue-prop="primaryImage" data-aue-type="media"/>
+					 src={`${getImageURL(primaryImage)}`} alt={title} {...imageProps}/>
 			<div className="adventure-detail-content">
 				
-				<div data-aue-prop="description"
-					 data-aue-type="richtext">{mapJsonRichText(description.json, customRenderOptions(references))}</div>
+				<div {...descProps}>{mapJsonRichText(description.json, customRenderOptions(references))}</div>
                 <div className="adventure-detail-info">
                     <div className="adventure-detail-info-label">
                         <h6>Adventure Type</h6>
-                        <span 
-												data-aue-prop='adventureType' data-aue-type="text"
-												>{adventureType}</span>
+                        <span {...advTypeProps}>{adventureType}</span>
                     </div>
                     <div className="adventure-detail-info-label">
                         <h6>Trip Length</h6>
-                        <span 
-												data-aue-prop='tripLength' data-aue-type="text"
-												>{tripLength}</span>
+                        <span {...tripLengthProps}>{tripLength}</span>
                     </div>
                     <div className="adventure-detail-info-label">
                         <h6>Difficulty</h6>
-                        <span 
-												data-aue-prop='difficulty' data-aue-type="text"
-												>{difficulty}</span>
+                        <span {...difficultyProps}>{difficulty}</span>
                     </div>
                     <div className="adventure-detail-info-label">
                         <h6>Group Size</h6>
-                        <span 
-												data-aue-prop='groupSize' data-aue-type="text"
-												>{groupSize}</span>
+                        <span {...groupSizeProps}>{groupSize}</span>
                     </div>
                 </div>
 				<h6>Itinerary</h6>
-				<div data-aue-prop="itinerary" data-aue-type="richtext"
-					 className="adventure-detail-itinerary">{mapJsonRichText(itinerary.json)}</div>
+				<div className="adventure-detail-itinerary" {...itineraryProps}>{mapJsonRichText(itinerary.json)}</div>
 			</div>
 
 		</div>

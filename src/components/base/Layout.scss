@@ -1,0 +1,48 @@
+@use "sass:math";
+
+.layout {
+    &.aem-Grid {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 1280px;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    &__col {
+        &.aem-GridColumn {
+            box-sizing: border-box;
+            min-height: 50px;
+            padding: 0 1em; // Padding destra e sinistra di 1em
+            flex-grow: 0;
+            flex-shrink: 0;
+            width: 100%; // Mobile default
+        }
+
+        // Fix immagine che sborda
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        // Desktop grid logic
+        @media screen and (min-width: 768px) {
+            @for $i from 1 through 12 {
+                &.aem-GridColumn--default--#{$i} {
+                    flex-basis: math.percentage(math.div($i, 12));
+                    max-width: math.percentage(math.div($i, 12));
+                }
+            }
+        }
+    }
+}
+
+// Assicura che i container annidati occupino tutto lo spazio
+.layout__col .aem-Grid {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}

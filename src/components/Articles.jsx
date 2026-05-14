@@ -22,21 +22,25 @@ const Article = ({_path, title, synopsis, authorFragment, slug}) => {
         "data-aue-type": "reference",
         "data-aue-filter": "cf"
     };
+
+    const imageProps = { "data-aue-prop": "profilePicture", "data-aue-type": "media" };
+    const titleProps = { "data-id": "title", "data-aue-prop": "title", "data-aue-type": "text" };
+    const synopsisProps = { "data-aue-prop": "synopsis", "data-aue-type": "richtext" };
     return (
         <li className="article-item" {...editorProps}>
             <aside>
               <img className="article-item-image"
                 src={`${getImageURL(authorFragment?.profilePicture)}`}
-                alt={title} data-aue-prop="profilePicture" data-aue-type="media"/>
+                alt={title} {...imageProps}/>
             </aside>
             <article>
               <Link href={`/articles/article/${slug}${getQueryStringForHashRouting()}`}>
-                  <h3 data-id="title" data-aue-prop="title" data-aue-type="text">{title}</h3>
+                  <h3 {...titleProps}>{title}</h3>
               </Link>
 
               <p>{`By ${authorFragment.firstName} ${authorFragment.lastName}`}</p>
               { synopsis && 
-                <div className="article-content" data-aue-prop='synopsis' data-aue-type='richtext'>
+                <div className="article-content" {...synopsisProps}>
                   {mapJsonRichText(synopsis.json)}
                 </div>
               }

@@ -17,28 +17,54 @@ const ContentFragment = ({ resource, type, data }) => {
   const isArticle = data?.model === 'wknd-shared/models/article';
   const isAdventure = data?.model === 'wknd-shared/models/adventure';
 
+  const editorProps = {
+    "data-aue-resource": resource,
+    "data-aue-type": type,
+    "data-aue-model": "contentfragment",
+    "data-aue-label": "Content Fragment"
+  };
+
+  const elementsProps = {
+    "data-aue-resource": cfResource,
+    "data-aue-type": cfResource ? "reference" : undefined,
+    "data-aue-filter": "cf",
+    "data-aue-label": isArticle ? "Article" : isAdventure ? "Adventure" : "Content Fragment"
+  };
+
+  const articleProps = {
+    title: { "data-aue-prop": "title", "data-aue-type": "text", "data-aue-label": "Title" },
+    image: { "data-aue-type": "media", "data-aue-prop": elements.featuredImage ? "featuredImage" : "primaryImage" },
+    main: { "data-aue-prop": "main", "data-aue-type": "richtext" }
+  };
+
+  const adventureProps = {
+    title: { "data-aue-prop": "title", "data-aue-type": "text", "data-aue-label": "Title" },
+    activity: { "data-aue-prop": "activity", "data-aue-type": "text" },
+    image: { "data-aue-prop": "primaryImage", "data-aue-type": "media" },
+    description: { "data-aue-prop": "description", "data-aue-type": "richtext" },
+    adventureType: { "data-aue-prop": "adventureType", "data-aue-type": "text" },
+    tripLength: { "data-aue-prop": "tripLength", "data-aue-type": "text" },
+    difficulty: { "data-aue-prop": "difficulty", "data-aue-type": "text" },
+    groupSize: { "data-aue-prop": "groupSize", "data-aue-type": "text" },
+    itinerary: { "data-aue-prop": "itinerary", "data-aue-type": "richtext" }
+  };
+
   // Generic renderer for CF elements
   return (
     <div 
       className="content-fragment" 
-      data-aue-resource={resource} 
-      data-aue-type={type}
-      data-aue-model="contentfragment"
-      data-aue-label="Content Fragment"
+      {...editorProps}
       style={{ padding: '15px', border: '1px solid #eee', marginBottom: '15px' }}
     >
       <div 
         className={`content-fragment-elements ${isArticle || isAdventure ? 'adventure-detail' : ''}`}
-        data-aue-resource={cfResource}
-        data-aue-type={cfResource ? "reference" : undefined}
-        data-aue-filter="cf"
-        data-aue-label={isArticle ? "Article" : isAdventure ? "Adventure" : "Content Fragment"}
+        {...elementsProps}
       >
         {isArticle ? (
           <>
             <div className="adventure-detail-header" style={{ padding: '0 1rem' }}>
               {elements.title && (
-                <h1 className="adventure-detail-title" data-aue-prop="title" data-aue-type="text" data-aue-label="Title">
+                <h1 className="adventure-detail-title" {...articleProps.title}>
                   {elements.title.value || elements.title}
                 </h1>
               )}
@@ -47,15 +73,14 @@ const ContentFragment = ({ resource, type, data }) => {
               {(elements.featuredImage || elements.primaryImage) && (
                 <img 
                   className="adventure-detail-primaryimage" 
-                  data-aue-type="media" 
-                  data-aue-prop={elements.featuredImage ? "featuredImage" : "primaryImage"}
+                  {...articleProps.image}
                   src={`${getImageURL((elements.featuredImage || elements.primaryImage).value || (elements.featuredImage || elements.primaryImage))}`} 
                   alt={(elements.title?.value || elements.title) || 'Article Image'}
                 />
               )}
               <div className="adventure-detail-content">
                 {elements.main && (
-                  <div data-aue-prop="main" data-aue-type="richtext">
+                  <div {...articleProps.main}>
                     {elements.main.html ? (
                       <div dangerouslySetInnerHTML={{ __html: elements.main.html }} />
                     ) : elements.main.json ? (
@@ -72,13 +97,13 @@ const ContentFragment = ({ resource, type, data }) => {
           <>
             <div className="adventure-detail-header" style={{ padding: '0 1rem' }}>
               {elements.title && (
-                <h1 className="adventure-detail-title" data-aue-prop="title" data-aue-type="text" data-aue-label="Title">
+                <h1 className="adventure-detail-title" {...adventureProps.title}>
                   {elements.title.value || elements.title}
                 </h1>
               )}
               {elements.activity && (
                 <div className="pill default">
-                  <span data-aue-prop="activity" data-aue-type="text">
+                  <span {...adventureProps.activity}>
                     {elements.activity.value || elements.activity}
                   </span>
                 </div>
@@ -88,15 +113,14 @@ const ContentFragment = ({ resource, type, data }) => {
               {elements.primaryImage && (
                 <img 
                   className="adventure-detail-primaryimage" 
-                  data-aue-prop="primaryImage" 
-                  data-aue-type="media"
+                  {...adventureProps.image}
                   src={`${getImageURL((elements.primaryImage).value || elements.primaryImage)}`} 
                   alt={(elements.title?.value || elements.title) || 'Adventure Image'}
                 />
               )}
               <div className="adventure-detail-content">
                 {elements.description && (
-                  <div data-aue-prop="description" data-aue-type="richtext">
+                  <div {...adventureProps.description}>
                     {elements.description.html ? (
                       <div dangerouslySetInnerHTML={{ __html: elements.description.html }} />
                     ) : elements.description.json ? (
@@ -109,25 +133,25 @@ const ContentFragment = ({ resource, type, data }) => {
                 <div className="adventure-detail-info">
                   <div className="adventure-detail-info-label">
                     <h6>Adventure Type</h6>
-                    <span data-aue-prop='adventureType' data-aue-type="text">
+                    <span {...adventureProps.adventureType}>
                       {elements.adventureType?.value || elements.adventureType}
                     </span>
                   </div>
                   <div className="adventure-detail-info-label">
                     <h6>Trip Length</h6>
-                    <span data-aue-prop='tripLength' data-aue-type="text">
+                    <span {...adventureProps.tripLength}>
                       {elements.tripLength?.value || elements.tripLength}
                     </span>
                   </div>
                   <div className="adventure-detail-info-label">
                     <h6>Difficulty</h6>
-                    <span data-aue-prop='difficulty' data-aue-type="text">
+                    <span {...adventureProps.difficulty}>
                       {elements.difficulty?.value || elements.difficulty}
                     </span>
                   </div>
                   <div className="adventure-detail-info-label">
                     <h6>Group Size</h6>
-                    <span data-aue-prop='groupSize' data-aue-type="text">
+                    <span {...adventureProps.groupSize}>
                       {elements.groupSize?.value || elements.groupSize}
                     </span>
                   </div>
@@ -135,7 +159,7 @@ const ContentFragment = ({ resource, type, data }) => {
                 {elements.itinerary && (
                   <>
                     <h6>Itinerary</h6>
-                    <div data-aue-prop="itinerary" data-aue-type="richtext" className="adventure-detail-itinerary">
+                    <div className="adventure-detail-itinerary" {...adventureProps.itinerary}>
                       {elements.itinerary.html ? (
                         <div dangerouslySetInnerHTML={{ __html: elements.itinerary.html }} />
                       ) : elements.itinerary.json ? (
@@ -155,14 +179,15 @@ const ContentFragment = ({ resource, type, data }) => {
             if (!element || typeof element !== 'object') return null;
 
             const aueType = (element.html || element.json) ? "richtext" : "text";
+            const dynamicProps = { "data-aue-prop": key, "data-aue-type": aueType };
 
             // Check if it's a rich text or simple text
             if (element.html) {
-              return <div key={key} data-aue-prop={key} data-aue-type={aueType} dangerouslySetInnerHTML={{ __html: element.html }} />;
+              return <div key={key} {...dynamicProps} dangerouslySetInnerHTML={{ __html: element.html }} />;
             } else if (element.json) {
-              return <div key={key} data-aue-prop={key} data-aue-type={aueType}>{mapJsonRichText(element.json)}</div>;
+              return <div key={key} {...dynamicProps}>{mapJsonRichText(element.json)}</div>;
             } else if (element.value) {
-              return <div key={key} data-aue-prop={key} data-aue-type={aueType} className={`cf-element cf-${key}`}>{element.value}</div>;
+              return <div key={key} {...dynamicProps} className={`cf-element cf-${key}`}>{element.value}</div>;
             }
             return null;
           })

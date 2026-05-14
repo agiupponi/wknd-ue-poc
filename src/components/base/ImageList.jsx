@@ -52,8 +52,27 @@ const ImageListItem = ({ item }) => {
 
     const linkUrl = item.link?.url || (path ? `${path}.html` : "#");
 
+    const itemProps = {
+        "data-aue-resource": `urn:aemconnection:${path}/jcr:content`,
+        "data-aue-component": "image-list-item",
+        "data-aue-type": "component",
+        "data-aue-label": "Image List Item"
+    };
+
+    const titleProps = {
+        "data-aue-label": "Title",
+        "data-aue-prop": "jcr:title",
+        "data-aue-type": "text"
+    };
+
+    const descProps = {
+        "data-aue-label": "Description",
+        "data-aue-prop": "jcr:description",
+        "data-aue-type": "text"
+    };
+
     return (
-        <div className="cmp-imagelist__item" data-aue-resource={`urn:aemconnection:${path}/jcr:content`} data-aue-component="image-list-item" data-aue-type="component" data-aue-label="Image List Item">
+        <div className="cmp-imagelist__item" {...itemProps}>
             <Link href={linkUrl} className="cmp-imagelist__item-link">
                 <div className="cmp-imagelist__item-image">
                     {imagePath ? (
@@ -63,8 +82,8 @@ const ImageListItem = ({ item }) => {
                     )}
                 </div>
                 <div className="cmp-imagelist__item-content">
-                    <h3 className="cmp-imagelist__item-title" data-aue-label="Title" data-aue-prop="jcr:title" data-aue-type="text">{title}</h3>
-                    {description && <p className="cmp-imagelist__item-description" data-aue-label="Description" data-aue-prop="jcr:description" data-aue-type="text">{description}</p>}
+                    <h3 className="cmp-imagelist__item-title" {...titleProps}>{title}</h3>
+                    {description && <p className="cmp-imagelist__item-description" {...descProps}>{description}</p>}
                 </div>
             </Link>
         </div>
@@ -75,8 +94,16 @@ const ImageList = (props) => {
     const { resource, type, data } = props;
     const items = data?.items || [];
 
+    const editorProps = {
+        "data-aue-component": "image-list",
+        "data-aue-resource": resource,
+        "data-aue-type": type,
+        "data-aue-label": "Image List",
+        "data-aue-prop": "pages"
+    };
+
     return (
-        <div className="cmp-imagelist" data-aue-component="image-list" data-aue-resource={resource} data-aue-type={type} data-aue-label="Image List" data-aue-prop="pages">
+        <div className="cmp-imagelist" {...editorProps}>
             <div className="cmp-imagelist__items">
                 {items.length > 0 ? (
                     items.map((item, index) => (

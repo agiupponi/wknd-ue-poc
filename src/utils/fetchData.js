@@ -1,7 +1,8 @@
 import { getSearchParamsForHashRouting } from "./commons";
 
 export const fetchData = async (path) => {
-    const url = `${getAuthorHost()}/${path.split(":/")[1]}.infinity.json`;
+    const aemPath = path.includes(":/") ? path.split(":/")[1] : path;
+    const url = `${getAuthorHost()}${aemPath.startsWith('/') ? '' : '/'}${aemPath}.infinity.json`;
     
     const token = process.env.NEXT_PUBLIC_AEM_ACCESS_TOKEN;
     const headers = {
@@ -16,12 +17,23 @@ export const fetchData = async (path) => {
         }
     }
 
-    const data = await fetch(url, { 
-        headers, 
-        credentials: "include" 
-    });
-    const json = await data.json();
-    return json;
+    try {
+        const response = await fetch(url, { 
+            headers, 
+            credentials: "include" 
+        });
+        
+        if (!response.ok) {
+            console.error("fetchData: Response not OK", response.status, url);
+            return null;
+        }
+
+        const json = await response.json();
+        return json;
+    } catch (err) {
+        console.error("fetchData: Error fetching or parsing JSON", err, url);
+        return null;
+    }
 };
 
 export const fetchModel = async (path) => {
@@ -41,16 +53,21 @@ export const fetchModel = async (path) => {
         }
     }
 
-    const response = await fetch(url, { 
-        headers, 
-        credentials: "include" 
-    });
-    
-    if (!response.ok) {
+    try {
+        const response = await fetch(url, { 
+            headers, 
+            credentials: "include" 
+        });
+        
+        if (!response.ok) {
+            return null;
+        }
+        
+        return await response.json();
+    } catch (err) {
+        console.error("fetchModel: Error", err, url);
         return null;
     }
-    
-    return await response.json();
 };
 
 export const fetchHtml = async (path) => {
@@ -70,16 +87,21 @@ export const fetchHtml = async (path) => {
         }
     }
 
-    const response = await fetch(url, { 
-        headers, 
-        credentials: "include" 
-    });
-    
-    if (!response.ok) {
+    try {
+        const response = await fetch(url, { 
+            headers, 
+            credentials: "include" 
+        });
+        
+        if (!response.ok) {
+            return null;
+        }
+        
+        return await response.text();
+    } catch (err) {
+        console.error("fetchHtml: Error", err, url);
         return null;
     }
-    
-    return await response.text();
 };
 
 export const getAuthorHost = () => {

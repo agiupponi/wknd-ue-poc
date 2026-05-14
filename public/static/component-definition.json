@@ -199,6 +199,8 @@
                 "resourceType": "wknd/components/layout",
                 "template": {
                   "layoutStyle": "2col",
+                  "columnSizing": "10-2",
+                  "thirdColumnSize": "1",
                   "col-1": {
                     "sling:resourceType": "wknd/components/container"
                   },

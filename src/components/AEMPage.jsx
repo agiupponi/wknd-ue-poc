@@ -36,12 +36,13 @@ const AEMPage = ({ path, children }) => {
             }
 
             e.preventDefault(); // Stop UE from attempting fallback DOM patching for add/update
-            console.log("AEMPage: AUE event detected, refetching model in 300ms...", e.type);
+            console.log("AEMPage: AUE event detected, refetching model in 500ms...", e.type);
             
-            // Add a small delay to ensure AEM backend has finished committing the changes
+            // Increased delay to 500ms to ensure AEM backend has finished committing 
+            // and to avoid duplication issues during component moves
             setTimeout(() => {
                 loadModel();
-            }, 300);
+            }, 500);
         };
 
         document.addEventListener('aue:content-add', handleAueEvent);

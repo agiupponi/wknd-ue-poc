@@ -6,13 +6,17 @@ import './Carousel.scss';
 const CarouselItem = (props) => {
     const { resource, data, isActive } = props;
 
+    const editorProps = {
+        "data-aue-component": "carousel-item",
+        "data-aue-resource": resource,
+        "data-aue-type": "component",
+        "data-aue-label": "Carousel Item"
+    };
+
     return (
         <div 
             className={`carousel-item ${isActive ? 'is-active' : ''}`} 
-            data-aue-component="carousel-item" 
-            data-aue-resource={resource} 
-            data-aue-type="component" 
-            data-aue-label="Carousel Item"
+            {...editorProps}
         >
             <Container resource={resource} type="container" data={data} label="Content" />
         </div>
@@ -44,8 +48,15 @@ const Carousel = (props) => {
         setActiveIndex((prev) => (prev - 1 + items.length) % items.length);
     };
 
+    const editorProps = {
+        "data-aue-component": "carousel",
+        "data-aue-resource": resource,
+        "data-aue-type": type,
+        "data-aue-label": "Carousel"
+    };
+
     return (
-        <div className="carousel" data-aue-component="carousel" data-aue-resource={resource} data-aue-type={type} data-aue-label="Carousel">
+        <div className="carousel" {...editorProps}>
             <div className="carousel-inner">
                 {items.map((item, index) => (
                     <div key={`${resource}/${item}`} className="carousel-item-wrapper">

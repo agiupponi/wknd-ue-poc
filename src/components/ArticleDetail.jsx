@@ -50,8 +50,7 @@ async function ArticleDetail({article, slug}) {
     return (<div {...editorProps} className="adventure-detail">
         <div className="adventure-detail-header">
             <BackButton label="Back" className="adventure-detail-back-nav dark" />
-            <h1 className="adventure-detail-title" data-aue-prop="title"
-                data-aue-type="text">{currentArticle.title}</h1>
+            <h1 className="adventure-detail-title" {...{ "data-aue-prop": "title", "data-aue-type": "text" }}>{currentArticle.title}</h1>
             {/* <span className="pill default" itemProp="title" itemType="text">{currentAdventure.activity}</span> */}
         </div>
         <ArticleDetailRender {...currentArticle} slug={articleSlug}/>
@@ -66,11 +65,13 @@ function ArticleDetailRender({
                              }) {
 
 
+    const imageProps = { "data-aue-type": "media", "data-aue-prop": "featuredImage" };
+    const mainProps = { "data-aue-prop": "main", "data-aue-type": "richtext" };
+
     return (<div>
-        <img className="adventure-detail-primaryimage" data-aue-type="media" data-aue-prop="featuredImage"
-             src={`${getImageURL(featuredImage)}`} alt={title}/>
+        <img className="adventure-detail-primaryimage" {...imageProps} src={`${getImageURL(featuredImage)}`} alt={title}/>
 			<div className="adventure-detail-content">			
-				<div data-aue-prop="main" data-aue-type="richtext">{mapJsonRichText(main.json)}</div>
+				<div {...mainProps}>{mapJsonRichText(main.json)}</div>
 			</div>
 		</div>
 	);

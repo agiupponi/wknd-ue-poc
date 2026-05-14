@@ -5,11 +5,23 @@ import './Accordion.scss';
 
 const AccordionItem = (props) => {
     const {resource, data, isOpen, onToggle} = props;
+    const editorProps = {
+        "data-aue-component": "accordion-item",
+        "data-aue-resource": resource,
+        "data-aue-type": "component",
+        "data-aue-label": "Accordion Item"
+    };
+
+    const titleProps = {
+        "data-aue-prop": "cq:panelTitle",
+        "data-aue-type": "text",
+        "data-aue-label": "Title"
+    };
 
     return(
-        <div className={`accordion-item ${isOpen ? 'is-open' : ''}`} data-aue-component="accordion-item" data-aue-resource={resource} data-aue-type="component" data-aue-label="Accordion Item">
+        <div className={`accordion-item ${isOpen ? 'is-open' : ''}`} {...editorProps}>
             <div className="accordion-item-title" onClick={onToggle}>
-                <h3 data-aue-prop="cq:panelTitle" data-aue-type="text" data-aue-label="Title">{data?.["cq:panelTitle"] || data?.["jcr:title"] || data?.["title"] || "Item"}</h3>
+                <h3 {...titleProps}>{data?.["cq:panelTitle"] || data?.["jcr:title"] || data?.["title"] || "Item"}</h3>
                 <span className="accordion-item-icon">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4 6L8 10L12 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -49,9 +61,15 @@ const Accordion = (props) => {
             return newSet;
         });
     };
-    
+    const editorProps = {
+        "data-aue-component": "accordion",
+        "data-aue-resource": resource,
+        "data-aue-type": type,
+        "data-aue-label": "Accordion"
+    };
+
     return (
-        <div className="accordion" data-aue-component="accordion" data-aue-resource={resource} data-aue-type={type} data-aue-label="Accordion">
+        <div className="accordion" {...editorProps}>
             {items.map((item, index) => (
                 <div key={`${resource}/${item}`} className="accordion-item-wrapper">
                     <AccordionItem 

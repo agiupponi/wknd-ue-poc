@@ -124,6 +124,7 @@
         "component": "aem-content-fragment",
         "name": "fragmentPath",
         "label": "Content Fragment Picker",
+        "variationName": "variationName",
         "valueType": "string",
         "validation": {
           "rootPath": "/content/dam"
@@ -143,6 +144,29 @@
         "options": [
           { "name": "2 colonne", "value": "2col" },
           { "name": "3 colonne", "value": "3col" }
+        ]
+      },
+      {
+        "component": "select",
+        "name": "columnSizing",
+        "label": "Sizing",
+        "valueType": "string",
+        "value": "10-2",
+        "options": [
+          { "name": "10 / 2", "value": "10-2" },
+          { "name": "2 / 10", "value": "2-10" }
+        ]
+      },
+      {
+        "component": "select",
+        "name": "thirdColumnSize",
+        "label": "Third Column Size",
+        "valueType": "string",
+        "value": "1",
+        "condition": { "===": [{"var" : "layoutStyle"}, "3col"] },
+        "options": [
+          { "name": "1/12", "value": "1" },
+          { "name": "2/12", "value": "2" }
         ]
       }
     ]
