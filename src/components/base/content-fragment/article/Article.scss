@@ -1,0 +1,37 @@
+@use '../../../../styles/variables' as *;
+
+.adventure-detail { // Keeping the class name for compatibility with existing layout if needed, but scoped to Article
+  padding: 0 80px;
+  background: $white;
+  color: $black;
+
+  .adventure-detail-header {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: wrap;
+    align-items: center;
+    row-gap: 40px;
+    padding-bottom: 40px;
+  }
+}
+
+.adventure-detail-content, .adventure-detail-header {
+  padding: 40px 20%;
+}
+
+.adventure-detail-title {
+  margin: 0;
+}
+
+.adventure-detail-primaryimage {
+  margin: 0 auto;
+  border-radius: 16px;
+  aspect-ratio: 16/8;
+  width: 100%;
+}
+
+@media only screen and (max-width: $tablet-breakpoint) {
+  .adventure-detail-content, .adventure-detail-header {
+    padding: 40px 0;
+  }
+}
