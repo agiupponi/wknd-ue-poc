@@ -19,8 +19,8 @@
   "scripts": {
     "start": "next start",
     "dev:sandbox": "env-cmd -f .env.sandbox next dev --experimental-https",
-    "build": "next build",
-    "deploy": "next build && gh-pages -d out --cname ue-remote-app.adobe.net",
+    "build": "next build --webpack",
+    "deploy": "next build --webpack && gh-pages -d out --cname ue-remote-app.adobe.net",
     "dev:local": "NODE_EXTRA_CA_CERTS=certificates/localhost.pem next dev --experimental-https"
   },
   "dependencies": {
