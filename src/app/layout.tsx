@@ -5,19 +5,19 @@ import "./globals.css";
 import UniversalEditorMeta from "./UniversalEditorMeta";
 
 const NavMenu: React.FC = () => {
-    return (
-        <nav>
-            <ul className="menu">
-                <li><a href={`/`}>Home</a></li>
-            </ul>
-        </nav>
-    );
+  return (
+    <nav>
+      <ul className="menu">
+        <li><a href={`/`}>Home</a></li>
+      </ul>
+    </nav>
+  );
 };
 
 const Header: React.FC = () => {
   return (
     <header className="header">
-        <img src={logo.src || logo} className="logo" alt="WKND Logo" />
+      <img src={logo.src || logo} className="logo" alt="WKND Logo" />
       <NavMenu />
       <button className="dark">Sign in</button>
     </header>
@@ -36,16 +36,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-          <script type="application/vnd.adobe.aue.component+json" src="/static/component-definition.json" />
-          <script type="application/vnd.adobe.aue.filter+json" src="/static/filter-definition.json" />
-          <script type="application/vnd.adobe.aue.model+json" src="/static/model-definition.json" />
-          
-          {/* WKND Styles from AEM */}
-          <link rel="stylesheet" href="/aem-proxy/etc.clientlibs/wknd/clientlibs/clientlib-base.css" />
-          <link rel="stylesheet" href="/aem-proxy/etc.clientlibs/wknd/clientlibs/clientlib-grid.css" />
-          <link rel="stylesheet" href="/aem-proxy/etc.clientlibs/wknd/clientlibs/clientlib-site.css" />
-          <script dangerouslySetInnerHTML={{
-            __html: `
+        <script type="application/vnd.adobe.aue.component+json" src="/static/component-definition.json" />
+        <script type="application/vnd.adobe.aue.filter+json" src="/static/filter-definition.json" />
+        <script type="application/vnd.adobe.aue.model+json" src="/static/model-definition.json" />
+
+        {/* WKND Styles from AEM */}
+        <script dangerouslySetInnerHTML={{
+          __html: `
             (function () {
               const urlParams = new URLSearchParams(window.location.search);
               const corsUrl = urlParams.get('cors') === "stage" ? 'https://universal-editor-service-stage.adobe.io/cors.js' : 'https://universal-editor-service.adobe.io/cors.js';
@@ -55,18 +52,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               document.head.appendChild(script);
             })();
             `
-          }} />
+        }} />
       </head>
       <body>
         <UniversalEditorMeta />
         <div className="App">
           <Header />
-          <hr/>
+          <hr />
           <main>
             {children}
           </main>
-          <hr/>
-          <Footer/>
+          <hr />
+          <Footer />
         </div>
       </body>
     </html>
